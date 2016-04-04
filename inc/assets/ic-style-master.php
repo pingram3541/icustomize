@@ -2,7 +2,7 @@
 /*
 * Template Use: ic-style to enqueue master styles on front-end
 *
-* Example: http://www.yourserver.com/wp-content/plugins/icustomize/inc/assets/ic-style.php?key=icustomize-master-css-betheme
+* Produces: http://www.yourserver.com/wp-content/plugins/icustomize/inc/assets/ic-style.php?key=icustomize-master-css-yourtheme
 *
 */
 

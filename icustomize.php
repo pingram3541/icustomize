@@ -2,12 +2,12 @@
 /**
  * Plugin Name: iCustomize
  * Plugin URI: https://github.com/pingram3541/icustomize
- * Description: Adjust Custom CSS and JS in the Customizer.
- * Version: 0.01
+ * Description: Live, Front-End Custom CSS and JS in the WordPress Customizer for any theme.
+ * Version: 0.02
  * Author:  wplovr
  * Author URI: http://wplovr.com/
  * License: GPLv3
- * License URI: https://github.com/pingram3541/icustomize/blob/master/LICENSE
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
  * GitHub Plugin URI: https://github.com/pingram3541/icustomize
  * GitHub Branch:     master
  *
@@ -16,7 +16,8 @@
  * @package iCustomize
  *
  *
- * V0.01 - Plugin births into existance!
+ * 0.01 - Plugin births into existence!
+ * 0.02 - Remove deprecated functions, update wp required ver msg,
  */
 
 // Exit if accessed directly
@@ -31,10 +32,7 @@ if ( ! defined( 'IC_DEBUG' ) ) {
 
 //Define our current theme
 if ( ! defined( 'CURRENT_THEME_NAME' ) ) {
-    //get current theme name
-	//$theme = get_current_theme();
 	$theme = wp_get_theme();
-	//$theme = $theme->get();
 	$theme = strtolower($theme); //lower case
 	$theme = preg_replace("/[^a-z0-9_\s-]/", "", $theme); //Make alphanumeric (removes all other characters)
 	$theme = preg_replace("/[\s-]+/", " ", $theme); //Clean up multiple dashes or whitespaces
@@ -125,7 +123,7 @@ class iCustomize {
     }
 
     function disabled_notice(){
-        echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Sorry, iCustomize only works with WordPress version 4.4 or higher!', 'icustomize' ) . '</p></div>';
+        echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Sorry, iCustomize requires WordPress version 4.4 or higher!', 'icustomize' ) . '</p></div>';
     }
 
     static function compatible_version(){
