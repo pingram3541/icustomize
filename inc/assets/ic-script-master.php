@@ -2,7 +2,7 @@
 /*
 * Template Use: ic-script to enqueue master scripts on front-end
 *
-* Example: http://www.yourserver.com/wp-content/plugins/icustomize/inc/assets/ic-script-master.php?key=icustomize-master-js-betheme
+* Produces: http://www.yourserver.com/wp-content/plugins/icustomize/inc/assets/ic-script-master.php?key=icustomize-master-js-yourtheme
 *
 */
 

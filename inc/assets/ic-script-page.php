@@ -1,8 +1,8 @@
 <?php
 /*
-* Template Use: ic-script to enqueue page-specific script on front-end
+* Template Use: ic-script to enqueue page-specific scripts on front-end
 *
-* Example: http://www.yourserver.com/wp-content/plugins/icustomize/inc/assets/ic-script-page.php?id=429&key=icustomize-master-js-betheme
+* Produces: http://www.yourserver.com/wp-content/plugins/icustomize/inc/assets/ic-script-page.php?id=429&key=icustomize-master-js-yourtheme
 *
 */
 

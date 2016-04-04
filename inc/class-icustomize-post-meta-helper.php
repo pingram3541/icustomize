@@ -6,8 +6,8 @@
  * @category    Core
  * @author      wplovr
  * @copyright   Copyright (c) 2016, Philip Ingram, wplovr, wplovr.com
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.1
+ * @license     http://www.gnu.org/licenses/gpl-3.0.en.html
+ * @since       0.01
  */
 
 // Exit if accessed directly
@@ -77,7 +77,7 @@ class iCustomize_Post_Meta_Helper {
 
 		$wp_scripts = wp_scripts();
 		$queried_post = null;
-		
+
 		if ( is_singular() && get_queried_object() ) {
 			$queried_post = get_queried_object();
 			$queried_post->meta = get_post_custom( $queried_post->id );

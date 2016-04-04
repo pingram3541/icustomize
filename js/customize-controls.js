@@ -89,17 +89,17 @@
 			if ( oldPost ) {
 				//future, maybe...
 			}
-			
+
 			console.log(newPost);
 
 			//store our post id for use with update
 			window.pid = newPost.ID.toString();
 			window.meta = newPost.meta;
 			window.theme = newPost.theme;
-			
+
 			var page_css_style = $('#customize-preview iframe').contents().find('#icustomize-page-css-' + window.theme);
             var page_js_script = $('#customize-preview iframe').contents().find('#icustomize-page-js-' + window.theme);
-    
+
     	    var page_css = '';
             var page_js = '';
 
@@ -111,8 +111,8 @@
 
                 //unhide and refresh contents
                 if(page_css_object.hasClass('hidden')){
-                    _css_title.text('Custom Page CSS');
-			        post_css_description.text('Edit the page\'s custom css.').attr('style','');
+                    page_css_title.text('Custom Page CSS');
+			        page_css_description.text('Edit the page\'s custom css.').attr('style','');
                     page_css_object.removeClass('hidden');
                     page_css_editor.refresh();
                 }
@@ -325,7 +325,7 @@
             customize_wrap = $('.wp-full-overlay.expanded');
             editor_pane = $('.wp-full-overlay-sidebar');
             preview_pane = $('#customize-preview iframe');
-            
+
             //hide new customizer device
             $('#customize-footer-actions').css('height', 'auto').find('.devices').addClass('hidden');
 
@@ -385,27 +385,13 @@
                         preview_pane.contents().find('#icustomize-master-css-' + window.theme).after('<style id="icustomize-page-css-' + window.theme + '">');
                     }
                 }
-
-                //update page_js control value - old, was needed when we were getting value from theme's script tag
-                /*var page_js = page_js_script.html();
-                if(page_js){
-                    page_js_editor.setValue(page_js.replace(/^\s+|\s+$/g, '')); //set editor value w/out opening and closing line breaks
-                } else {
-                    page_js_editor.setValue(''); //set editor value w/out ...loading
-
-                    //create custom page js script element if not exist
-                    if(! page_js_script.length){
-                        preview_pane.contents().find('#icustomize-master-js-' + window.theme).after('<script type="text/javascript" id="icustomize-page-js-' + window.theme + '">');
-                    }
-                }*/
-
             }, 100);
         });
 
         $('body').on('click', '#accordion-section-icustomize_master_css .customize-section-back, #accordion-section-icustomize_master_js .customize-section-back, #accordion-section-icustomize_page_css .customize-section-back, #accordion-section-icustomize_page_js .customize-section-back', function(event){
             customize_wrap = $('.wp-full-overlay.expanded');
             editor_pane = $('.wp-full-overlay-sidebar');
-            
+
             //unhide new customizer device
             $('#customize-footer-actions').css('height', '').find('.devices').removeClass('hidden');
 
@@ -546,7 +532,6 @@
 	                    preview_pane.css('max-width', '100px');
 	                    $('.preview-width input').val('100');
 	                }
-
 	            }
 			});
 		});
