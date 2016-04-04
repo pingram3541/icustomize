@@ -11,10 +11,12 @@
  * GitHub Plugin URI: https://github.com/pingram3541/icustomize
  * GitHub Branch:     master
  *
+ * Copyright (c) 2016 Philip Ingram, wplovr, wplovr.com
+ *
  * @package iCustomize
  *
  *
- * V0.1 - Plugin biths into existance!
+ * V0.01 - Plugin births into existance!
  */
 
 // Exit if accessed directly
@@ -30,7 +32,9 @@ if ( ! defined( 'IC_DEBUG' ) ) {
 //Define our current theme
 if ( ! defined( 'CURRENT_THEME_NAME' ) ) {
     //get current theme name
-	$theme = get_current_theme();
+	//$theme = get_current_theme();
+	$theme = wp_get_theme();
+	//$theme = $theme->get();
 	$theme = strtolower($theme); //lower case
 	$theme = preg_replace("/[^a-z0-9_\s-]/", "", $theme); //Make alphanumeric (removes all other characters)
 	$theme = preg_replace("/[\s-]+/", " ", $theme); //Clean up multiple dashes or whitespaces
@@ -121,7 +125,7 @@ class iCustomize {
     }
 
     function disabled_notice(){
-        echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Sorry, iCustomize requires WordPress version 4.4 or higher!', 'icustomize' ) . '</p></div>';
+        echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Sorry, iCustomize only works with WordPress version 4.4 or higher!', 'icustomize' ) . '</p></div>';
     }
 
     static function compatible_version(){

@@ -16,7 +16,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} 
+}
     
     /* ---------------------------------------------------------------------------
      * Add Master and Custom Page Specific Stylesheets
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             global $post;
             global $wp_customize;
             
-            if ( isset( $wp_customize ) ) {
+            if ( isset( $_REQUEST['wp_customize'] ) ) { //$_REQUEST['wp_customize']
             
                 //get our master options
                 $ic_options = get_option('icustomize');
@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         }
         
     }
-    add_action('wp_head', 'icustomize_custom_css_back', 999);
+    add_action('wp_head', 'icustomize_custom_css_back', 999999);
     
     
     /* ---------------------------------------------------------------------------
@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             global $post;
             global $wp_customize;
             
-            if ( isset( $wp_customize ) ) {
+            if ( isset( $_REQUEST['wp_customize'] ) ) { //$_REQUEST['wp_customize']
             
                 //get our master options
                 $ic_options = get_option('icustomize');
@@ -99,4 +99,4 @@ if ( ! defined( 'ABSPATH' ) ) {
         }
         
     }
-    add_action('wp_footer', 'icustomize_custom_js_back', 999);
+    add_action('wp_footer', 'icustomize_custom_js_back', 999999);
