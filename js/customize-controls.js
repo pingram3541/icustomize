@@ -386,8 +386,8 @@
                     }
                 }
 
-                //update page_js control value
-                var page_js = page_js_script.html();
+                //update page_js control value - old, was needed when we were getting value from theme's script tag
+                /*var page_js = page_js_script.html();
                 if(page_js){
                     page_js_editor.setValue(page_js.replace(/^\s+|\s+$/g, '')); //set editor value w/out opening and closing line breaks
                 } else {
@@ -397,7 +397,7 @@
                     if(! page_js_script.length){
                         preview_pane.contents().find('#icustomize-master-js-' + window.theme).after('<script type="text/javascript" id="icustomize-page-js-' + window.theme + '">');
                     }
-                }
+                }*/
 
             }, 100);
         });
