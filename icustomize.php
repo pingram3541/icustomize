@@ -11,10 +11,12 @@
  * GitHub Plugin URI: https://github.com/pingram3541/icustomize
  * GitHub Branch:     master
  *
+ * Copyright (c) 2016 Philip Ingram, wplovr, wplovr.com
+ *
  * @package iCustomize
  *
  *
- * V0.1 - Plugin biths into existance!
+ * V0.01 - Plugin births into existance!
  */
 
 // Exit if accessed directly
