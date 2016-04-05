@@ -12,7 +12,7 @@ define('WP_USE_THEMES', false);
 require($base_dir . '/wp-blog-header.php');
 
 //get post id
-$post_id = $_GET['id'];
+$post_id = intval($_GET['id']);
 $key = $_GET['key'];
 
 //get all post meta - probably a better way use get_post_meta instead
