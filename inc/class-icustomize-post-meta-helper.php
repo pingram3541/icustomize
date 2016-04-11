@@ -82,6 +82,11 @@ class iCustomize_Post_Meta_Helper {
 			$queried_post = get_queried_object();
 			$queried_post->meta = get_post_custom( $queried_post->id );
 			$queried_post->theme = CURRENT_THEME_NAME;
+		} else if (get_queried_object()){		    
+		    $queried_post = get_queried_object();
+			$queried_post->theme = CURRENT_THEME_NAME;
+		} else {
+		    $queried_post->theme = CURRENT_THEME_NAME;
 		}
 		$wp_scripts->add_data( $handle, 'data', sprintf( 'var _iCustomizePreviewedQueriedObject = %s;', wp_json_encode( $queried_post ) ) );
 	}

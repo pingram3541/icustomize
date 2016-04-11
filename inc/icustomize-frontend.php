@@ -9,8 +9,6 @@
  * @license     http://www.gnu.org/licenses/gpl-3.0.en.html
  * @since       0.01
  *
- * @todo        enqueue front end outside of customizer
- *              see https://wordpress.org/support/topic/best-way-to-create-a-css-file-dynamically
  */
 
 // Exit if accessed directly
@@ -19,14 +17,103 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
     /* ---------------------------------------------------------------------------
-     * Add Master and Custom Page Specific Stylesheets
+     * Front-End Filters to load dynamic CSS as separate stylesheets
      * --------------------------------------------------------------------------- */
+    add_filter('query_vars','icustomize_get_css');
+    function icustomize_get_css($vars) {
+        $vars[] = 'get_css';
+        return $vars;
+    }
+
+    /* ---------------------------------------------------------------------------
+     * Front-End Actions to execute loading of dynamic CSS from URL queries
+     * --------------------------------------------------------------------------- */
+    add_action('template_redirect', 'icustomize_set_css');
+    function icustomize_set_css() {
+
+        $ic_options = get_option('icustomize');
+
+        /* --------------------------------------------
+         * Site-Wide Master CSS
+         * ------------------------------------------ */
+        if( get_query_var('get_css') == 'master') {
+
+            $master_css = '/* no master css styles set' . '*/'; //set default
+
+            //get our master css from $pre_options
+            $master_key = 'icustomize-master-css-' . CURRENT_THEME_NAME;
+            if( isset($ic_options[$master_key]) )
+                $master_css = $ic_options[$master_key];
+
+            //define as stylesheet type document
+            header("Content-type: text/css; charset: UTF-8");
+
+            //output master css
+            echo $master_css ."\n";
+
+            exit;
+        }
+
+        /* --------------------------------------------
+         * Shop-Wide Master CSS
+         * ------------------------------------------ */
+        if( get_query_var('get_css') == 'shop' ) {
+
+            $shop_css = '/* no shop css styles set' . '*/'; //set default
+
+            //get our shop master css from $pre_ options
+            $shop_key = 'icustomize-wc-master-css-' . CURRENT_THEME_NAME;
+            if( isset($ic_options[$shop_key]) )
+                $shop_css = $ic_options[$shop_key];
+
+            //define as stylesheet type document
+            header("Content-type: text/css; charset: UTF-8");
+
+            //output shop css
+            echo $shop_css ."\n";
+
+            exit;
+        }
+
+        /* --------------------------------------------
+         * Page-Specific CSS
+         * ------------------------------------------ */
+        if( get_query_var('get_css') == 'page' ) {
+
+            $page_css = '/* no page css styles set' . '*/'; //set default
+
+            //get our post/page css
+            if( isset($_GET['id']) )
+                $id = $_GET['id'];
+
+            if ( ! empty(get_post_meta( $id, 'icustomize-page-css-' . CURRENT_THEME_NAME, true)) )
+                $page_css = get_post_meta( $id, 'icustomize-page-css-' . CURRENT_THEME_NAME, true);
+
+            //define as stylesheet type document
+            header("Content-type: text/css; charset: UTF-8");
+
+            //output page css
+            echo $page_css ."\n";
+
+            exit;
+        }
+
+    }
+
+    /* ---------------------------------------------------------------------------
+     * Add Master and Custom Page Specific Stylesheets via wp_head
+     * --------------------------------------------------------------------------- */
+    add_action('wp_head', 'icustomize_custom_css_back', 999999);
     if( ! function_exists( 'icustomize_custom_css_back' ) ) {
 
         function icustomize_custom_css_back() {
 
             global $post;
             global $wp_customize;
+
+            if( isset( $post->ID ) ){
+                $id = $post->ID;
+            }
 
             if ( isset( $_REQUEST['wp_customize'] ) ) { //$_REQUEST['wp_customize']
 
@@ -41,27 +128,138 @@ if ( ! defined( 'ABSPATH' ) ) {
     		    echo '</style>'."\n";
 
 
-    		    //get our post/page css
-                $id = $post->ID;
-                $page_css = get_post_meta( $id, 'icustomize-page-css-' . CURRENT_THEME_NAME, true);
+    		    //get our shop master options
+    		    if ( class_exists( 'woocommerce' ) && (is_woocommerce() || is_cart() || is_checkout() ) ) {
+                    $shop_key = 'icustomize-wc-master-css-' . CURRENT_THEME_NAME;
+                    $shop_master_css = $ic_options[$shop_key];
 
-                //output our page css
-    		    echo '<style type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME . '">'."\n";
-    			    echo $page_css ."\n";
-    		    echo '</style>'."\n";
+                    //output our shop's master css
+        		    echo '<style type="text/css" id="icustomize-wc-master-css-' . CURRENT_THEME_NAME . '">'."\n";
+        			    echo $shop_master_css ."\n";
+        		    echo '</style>'."\n";
+    		    }
+
+    		    if( is_singular() ){
+    		        //get our post/page css
+                    $page_css = get_post_meta( $id, 'icustomize-page-css-' . CURRENT_THEME_NAME, true);
+
+                    //output our page css
+        		    echo '<style type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME . '">'."\n";
+    			       echo $page_css ."\n";
+    		        echo '</style>'."\n";
+    		    }
 
             } else {
-                echo '<link rel="stylesheet" type="text/css" id="icustomize-master-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-master.php?key=icustomize-master-css-' . CURRENT_THEME_NAME . '">';
-                echo '<link rel="stylesheet" type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-page.php?id=' . $post->ID . '&key=icustomize-page-css-' . CURRENT_THEME_NAME . '">';
+
+                //master css
+                //echo '<link rel="stylesheet" type="text/css" id="icustomize-master-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-master.php?key=icustomize-master-css-' . CURRENT_THEME_NAME . '">';
+                echo '<link rel="stylesheet" type="text/css" id="icustomize-master-css-' . CURRENT_THEME_NAME. '" href="/?get_css=master">';
+
+                //shop css
+                if ( class_exists( 'woocommerce' ) && (is_woocommerce() || is_cart() || is_checkout() ) ) {
+                    //echo '<link rel="stylesheet" type="text/css" id="icustomize-wc-master-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-shop-master.php?key=icustomize-wc-master-css-' . CURRENT_THEME_NAME . '">';
+                    echo '<link rel="stylesheet" type="text/css" id="icustomize-wc-master-css-' . CURRENT_THEME_NAME. '" href="/?get_css=shop">';
+                }
+
+                //page css
+                if( is_singular() ){
+                    //echo '<link rel="stylesheet" type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-page.php?id=' . $post->ID . '&key=icustomize-page-css-' . CURRENT_THEME_NAME . '">';
+                    echo '<link rel="stylesheet" type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME. '" href="/?get_css=page&id=' . $id . '">';
+                }
             }
         }
 
     }
-    add_action('wp_head', 'icustomize_custom_css_back', 999999);
+
 
 
     /* ---------------------------------------------------------------------------
-     * Add Master and Custom Specific Scripts in customizer
+     * Front-End Filters to load dynamic JS as separate scripts
+     * --------------------------------------------------------------------------- */
+    add_filter('query_vars','icustomize_get_js');
+    function icustomize_get_js($vars) {
+        $vars[] = 'get_js';
+        return $vars;
+    }
+
+    /* ---------------------------------------------------------------------------
+     * Front-End Actions to execute loading of dynamic JS from URL queries
+     * --------------------------------------------------------------------------- */
+    add_action('template_redirect', 'icustomize_set_js');
+    function icustomize_set_js() {
+
+        $ic_options = get_option('icustomize');
+
+        /* --------------------------------------------
+         * Site-Wide Master JS
+         * ------------------------------------------ */
+        if( get_query_var('get_js') == 'master') {
+
+            $master_js = '/* no master scripts set' . '*/'; //set default
+
+            //get our master js from $pre_options
+            $master_key = 'icustomize-master-js-' . CURRENT_THEME_NAME;
+            if( isset($ic_options[$master_key]) )
+                $master_js = $ic_options[$master_key];
+
+            //define as javascript type document
+            header("Content-type: text/javascript; charset: UTF-8");
+
+            //output master js
+            echo $master_js ."\n";
+
+            exit;
+        }
+
+        /* --------------------------------------------
+         * Shop-Wide Master JS
+         * ------------------------------------------ */
+        if( get_query_var('get_js') == 'shop' ) {
+
+            $shop_js = '/* no shop scripts set' . '*/'; //set default
+
+            //get our shop master js from $pre_ options
+            $shop_key = 'icustomize-wc-master-js-' . CURRENT_THEME_NAME;
+            if( isset($ic_options[$shop_key]) )
+                $shop_js = $ic_options[$shop_key];
+
+            //define as javascript type document
+            header("Content-type: text/javascript; charset: UTF-8");
+
+            //output shop js
+            echo $shop_js ."\n";
+
+            exit;
+        }
+
+        /* --------------------------------------------
+         * Page-Specific JS
+         * ------------------------------------------ */
+        if( get_query_var('get_js') == 'page' ) {
+
+            $page_js = '/* no page scripts set' . '*/'; //set default
+
+            //get our post/page css
+            if( isset($_GET['id']) )
+                $id = $_GET['id'];
+
+            if ( ! empty(get_post_meta( $id, 'icustomize-page-js-' . CURRENT_THEME_NAME, true)) )
+                $page_js = get_post_meta( $id, 'icustomize-page-js-' . CURRENT_THEME_NAME, true);
+
+            //define as javascript type document
+            header("Content-type: text/javascript; charset: UTF-8");
+
+            //output page js
+            echo $page_js ."\n";
+
+            exit;
+        }
+
+    }
+
+
+    /* ---------------------------------------------------------------------------
+     * Add Master and Custom Specific Scripts in customizer via wp_footer
      * --------------------------------------------------------------------------- */
     if( ! function_exists( 'icustomize_custom_js_back' ) ) {
 
@@ -69,6 +267,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             global $post;
             global $wp_customize;
+
+            if( isset( $post->ID ) ){
+                $id = $post->ID;
+            }
 
             if ( isset( $_REQUEST['wp_customize'] ) ) { //$_REQUEST['wp_customize']
 
@@ -83,20 +285,93 @@ if ( ! defined( 'ABSPATH' ) ) {
     		    echo '</script>'."\n";
 
 
-    		    //get our post/page js
-                $id = $post->ID;
-                $page_js = get_post_meta( $id, 'icustomize-page-js-' . CURRENT_THEME_NAME, true);
+    		    //get our shop master options
+    		    if ( class_exists( 'woocommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() ) ) {
+                    $shop_key = 'icustomize-wc-master-js-' . CURRENT_THEME_NAME;
+                    $shop_master_js = $ic_options[$shop_key];
 
-                //output our page css
-    		    echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME . '">'."\n";
-    		        echo $page_js ."\n";
-    		    echo '</script>'."\n";
+                    //output our shop's master css
+        		    echo '<script type="text/javascript" id="icustomize-wc-master-js-' . CURRENT_THEME_NAME . '">'."\n";
+        		        echo $shop_master_js ."\n";
+        		    echo '</script>'."\n";
+    		    }
+
+
+    		    //get our post/page js
+    		    if( is_singular() ){
+                    $page_js = get_post_meta( $id, 'icustomize-page-js-' . CURRENT_THEME_NAME, true);
+
+                    //output our page css
+        		    echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME . '">'."\n";
+        		        echo $page_js ."\n";
+        		    echo '</script>'."\n";
+    		    }
 
             } else {
-                echo '<script type="text/javascript" id="icustomize-master-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-master.php?key=icustomize-master-js-' . CURRENT_THEME_NAME . '"></script>';
-                echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-page.php?id=' . $post->ID . '&key=icustomize-page-js-' . CURRENT_THEME_NAME . '"></script>';
+
+                //master js
+                //echo '<script type="text/javascript" id="icustomize-master-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-master.php?key=icustomize-master-js-' . CURRENT_THEME_NAME . '"></script>';
+                echo '<script type="text/javascript" id="icustomize-master-js-' . CURRENT_THEME_NAME. '" src="/?get_js=master"></script>';
+
+                //shop js
+                if ( class_exists( 'woocommerce' ) && (is_woocommerce() || is_cart() || is_checkout() ) ) {
+                    //echo '<script type="text/javascript" id="icustomize-wc-master-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-shop-master.php?id=' . $post->ID . '&key=icustomize-wc-master-js-' . CURRENT_THEME_NAME . '"></script>';
+                    echo '<script type="text/javascript" id="icustomize-wc-master-js-' . CURRENT_THEME_NAME. '" src="/?get_js=shop"></script>';
+                }
+
+                //page js
+                if( is_singular() ){
+                    //echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-page.php?id=' . $post->ID . '&key=icustomize-page-js-' . CURRENT_THEME_NAME . '"></script>';
+                    echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME. '" src="/?get_js=page&id=' . $id . '"></script>';
+                }
             }
         }
 
     }
     add_action('wp_footer', 'icustomize_custom_js_back', 999999);
+
+
+    //future types
+    /*if( class_exists('Woocommerce') ){
+
+            if( is_shop() ){
+                write_log('shop page');
+            }
+
+            /*
+            if( is_cart() ){
+                write_log('cart page');
+            }
+
+            if( is_checkout() ){
+                write_log('checkout page');
+            }
+
+            if( is_account_page() ){
+                write_log('account page');
+            }
+
+            if( is_filtered() ){
+                write_log('shop filtered page');
+            }
+
+            if( is_product() ){
+                write_log('product page');
+            }
+
+            if( is_product_category() ){
+                write_log('product category page');
+            }
+
+            if( is_product_tag() ){
+                write_log('product tag page');
+            }
+
+            if( is_product_taxonomy() ){
+                write_log('product tag page');
+            }
+
+            if( is_view_order_page() ){
+                write_log('view order page');
+            }
+        }*/

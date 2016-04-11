@@ -6,23 +6,33 @@
 *
 */
 
-//let's define our servers base path and include wp functions
+$js = ''; /* initialize */
+
+//server base path and include wp functions
 $base_dir = $_SERVER['DOCUMENT_ROOT'];
 define('WP_USE_THEMES', false);
 require($base_dir . '/wp-blog-header.php');
 
-//get post id
-$post_id = intval($_GET['id']);
-$key = $_GET['key'];
-
-//get all post meta - probably a better way use get_post_meta instead
-$meta = get_post_custom( $post_id );
-
-//get script data and escape quotes
-$js = html_entity_decode( esc_attr( $meta[$key][0] ), ENT_QUOTES, 'UTF-8' );
+//get and return post id
+if( isset($_GET['id']) && isset($_GET['key']) ){
+    
+    $post_id = intval($_GET['id']);
+    $key = $_GET['key'];
+    
+    //get all post meta - probably a better way use get_post_meta instead
+    $meta = get_post_custom( $post_id );
+    
+    //get script data and escape quotes
+    if( isset($meta[$key][0]) ){
+        $js = html_entity_decode( esc_attr( $meta[$key][0] ), ENT_QUOTES, 'UTF-8' );
+    }
+    
+}
 
 //define as javascript doc
 header("Content-type: text/javascript; charset: UTF-8");
 
 //output our script
+echo '/* icustomize single-page js */';
+
 echo $js;

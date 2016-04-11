@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     /**
     * Config for icustomize $prefix_options serialized array (wp_options > icustomize)
     **************************************************/
-    Kirki::add_config( 'icustomize', array(
+    Kirki::add_config( 'icustomize_config', array(
         'capability'    => 'edit_theme_options',
         'option_type'   => 'option',
         'option_name'   => 'icustomize',
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     /**
     * Config for post_meta types
     **************************************************/
-    Kirki::add_config( 'post_meta', array(
+    Kirki::add_config( 'post_meta_config', array(
         'capability'    => 'edit_theme_options',
         'option_type'   => 'post_meta',
         //don't use 'option_name' otherwise value is stored in wp_options under that key anyway
@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     * @param string $value
     * @param $setting->id
     */
-    //add_action( 'customize_update_post_meta', 'icustomize_update_post_meta');
+    //add_action( 'customize_update_post_meta_config', 'icustomize_update_post_meta');
     function icustomize_update_post_meta( $value ) {
         //future, currently using field callback to update
     }
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     * @param string $value
     * @param $setting->id
     */
-    //add_action( 'customize_preview_post_meta', 'icustomize_preview_post_meta');
+    //add_action( 'customize_preview_post_meta_config', 'icustomize_preview_post_meta');
     function icustomize_preview_post_meta( $setting ) {
         //future, currently using field postMessage for preview
     }

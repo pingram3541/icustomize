@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     * Adds iCustomize Options Panel
     **************************************************/
 
-    Kirki::add_panel( 'icustomize_options', array(
+    Kirki::add_panel( 'icustomize_panel', array(
         'priority'    => 10,
         'title'       => __( 'iCustomize Options', 'icustomize' ),
         'description' => __( 'Custom CSS and JS', 'icustomize' ),

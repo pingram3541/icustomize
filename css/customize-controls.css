@@ -39,14 +39,18 @@ body.icustomize-active [data-hint]:after {
  * Editors
  */
 /* cm height */
-[id^=customize-control-icustomize-master-css],
-[id^=customize-control-icustomize-master-js],
+[id^=customize-control-icustomize-icustomize-master-css],
+[id^=customize-control-icustomize-icustomize-master-js],
+[id^=customize-control-icustomize-icustomize-wc-master-css],
+[id^=customize-control-icustomize-icustomize-wc-master-js],
 [id^=customize-control-icustomize-page-css],
 [id^=customize-control-icustomize-page-js] {
     height: 90%;
 }
-[id^=customize-control-icustomize-master-css] .CodeMirror,
-[id^=customize-control-icustomize-master-js] .CodeMirror,
+[id^=customize-control-icustomize-icustomize-master-css] .CodeMirror,
+[id^=customize-control-icustomize-icustomize-master-js] .CodeMirror,
+[id^=customize-control-icustomize-icustomize-wc-master-css] .CodeMirror,
+[id^=customize-control-icustomize-icustomize-wc-master-js] .CodeMirror,
 [id^=customize-control-icustomize-page-css] .CodeMirror,
 [id^=customize-control-icustomize-page-js] .CodeMirror {
     height: 100% !important;
@@ -204,6 +208,8 @@ div#customize-resizer .control-input-slide input:focus {
 }
 li#accordion-section-icustomize_master_css ul,
 li#accordion-section-icustomize_master_js ul,
+li#accordion-section-icustomize_shop_master_css ul,
+li#accordion-section-icustomize_shop_master_js ul,
 li#accordion-section-icustomize_page_css ul,
 li#accordion-section-icustomize_page_js ul {
     padding-right: 56px !important;
@@ -228,4 +234,9 @@ div#preview-resize-left {
 }
 div#preview-resize-left.active {
     background-color: rgba(0, 0, 0, .25);
+}
+
+/* hide kirki reset button */
+.kirki-reset-section {
+    display: none;    
 }
