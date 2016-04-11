@@ -21,7 +21,7 @@ $theme = CURRENT_THEME_NAME;
     * Master CSS
     ***************************************************/
 
-    Kirki::add_field( 'icustomize', array(
+    Kirki::add_field( 'icustomize_config', array(
         'type'        => 'code',
         'settings'     => 'icustomize-master-css-' . $theme,
         'label'       => __( 'Master CSS', 'icustomize' ),

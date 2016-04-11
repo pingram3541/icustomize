@@ -20,5 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) {
      */
     include_once( dirname( __FILE__ ) . '/fields/field-master-css.php' );
     include_once( dirname( __FILE__ ) . '/fields/field-master-js.php' );
-    include_once( dirname( __FILE__ ) . '/fields/field-page-css.php' );
-    include_once( dirname( __FILE__ ) . '/fields/field-page-js.php' );
+    include_once( dirname( __FILE__ ) . '/fields/field-page-css.php' ); //only if_singular - see section
+    include_once( dirname( __FILE__ ) . '/fields/field-page-js.php' ); //only if_singlular - see section
+    
+    
+    /**
+     * Check if WooCommerce is active
+     **/
+    if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+        
+        include_once( dirname( __FILE__ ) . '/fields/field-woocommerce-css.php' );
+        include_once( dirname( __FILE__ ) . '/fields/field-woocommerce-js.php' );
+        
+    }

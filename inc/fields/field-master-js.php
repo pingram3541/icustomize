@@ -21,7 +21,7 @@ $theme = CURRENT_THEME_NAME;
     * Custom JS
     ***************************************************/
 
-    Kirki::add_field( 'icustomize', array(
+    Kirki::add_field( 'icustomize_config', array(
         'type'        => 'code',
         'settings'     => 'icustomize-master-js-' . $theme,
         'label'       => __( 'Master JS', 'icustomize' ),

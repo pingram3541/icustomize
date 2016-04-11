@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     * Custom Page CSS
     ***************************************************/
 
-    Kirki::add_field( 'post_meta', array(
+    Kirki::add_field( 'post_meta_config', array(
         'type'        => 'code',
         'settings'     => 'icustomize-page-css-' . CURRENT_THEME_NAME,
         'label'       => __( 'Custom Page CSS', 'icustomize' ),
@@ -37,8 +37,26 @@ if ( ! defined( 'ABSPATH' ) ) {
     ) );
 
     //update page meta from customize-controls.js
-    function icustomize_page_css($value){
+    /*function icustomize_page_css($value){
+        write_log($value);
         if($value['postid']){
+            write_log('write of page post meta css fired!');
             update_post_meta($value['postid'], 'icustomize-page-css-' . CURRENT_THEME_NAME, $value['data']);
         }
+    }*/
+    
+    //update page meta from customize-controls.js
+    function icustomize_page_css($value){
+        write_log('write of page post meta css fired!');
+        write_log($value);
+        
+        if ( (array) $value === $value ) { 
+            if($value['postid']){
+                write_log('we have proper array!');
+                update_post_meta($value['postid'], 'icustomize-page-css-' . CURRENT_THEME_NAME, $value['data']);
+            } 
+        } else { 
+            write_log('not a single page');
+            //do nada
+        }   
     }
