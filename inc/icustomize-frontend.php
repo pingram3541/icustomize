@@ -115,7 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $id = $post->ID;
             }
 
-            if ( isset( $_REQUEST['wp_customize'] ) ) { //$_REQUEST['wp_customize']
+            if ( isset( $_REQUEST['wp_customize'] ) ) {
 
                 //get our master options
                 $ic_options = get_option('icustomize');
@@ -152,18 +152,15 @@ if ( ! defined( 'ABSPATH' ) ) {
             } else {
 
                 //master css
-                //echo '<link rel="stylesheet" type="text/css" id="icustomize-master-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-master.php?key=icustomize-master-css-' . CURRENT_THEME_NAME . '">';
                 echo '<link rel="stylesheet" type="text/css" id="icustomize-master-css-' . CURRENT_THEME_NAME. '" href="/?get_css=master">';
 
                 //shop css
                 if ( class_exists( 'woocommerce' ) && (is_woocommerce() || is_cart() || is_checkout() ) ) {
-                    //echo '<link rel="stylesheet" type="text/css" id="icustomize-wc-master-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-shop-master.php?key=icustomize-wc-master-css-' . CURRENT_THEME_NAME . '">';
                     echo '<link rel="stylesheet" type="text/css" id="icustomize-wc-master-css-' . CURRENT_THEME_NAME. '" href="/?get_css=shop">';
                 }
 
                 //page css
                 if( is_singular() ){
-                    //echo '<link rel="stylesheet" type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME. '" href="/wp-content/plugins/icustomize/inc/assets/ic-style-page.php?id=' . $post->ID . '&key=icustomize-page-css-' . CURRENT_THEME_NAME . '">';
                     echo '<link rel="stylesheet" type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME. '" href="/?get_css=page&id=' . $id . '">';
                 }
             }
@@ -272,7 +269,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $id = $post->ID;
             }
 
-            if ( isset( $_REQUEST['wp_customize'] ) ) { //$_REQUEST['wp_customize']
+            if ( isset( $_REQUEST['wp_customize'] ) ) {
 
                 //get our master options
                 $ic_options = get_option('icustomize');
@@ -310,18 +307,15 @@ if ( ! defined( 'ABSPATH' ) ) {
             } else {
 
                 //master js
-                //echo '<script type="text/javascript" id="icustomize-master-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-master.php?key=icustomize-master-js-' . CURRENT_THEME_NAME . '"></script>';
                 echo '<script type="text/javascript" id="icustomize-master-js-' . CURRENT_THEME_NAME. '" src="/?get_js=master"></script>';
 
                 //shop js
                 if ( class_exists( 'woocommerce' ) && (is_woocommerce() || is_cart() || is_checkout() ) ) {
-                    //echo '<script type="text/javascript" id="icustomize-wc-master-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-shop-master.php?id=' . $post->ID . '&key=icustomize-wc-master-js-' . CURRENT_THEME_NAME . '"></script>';
                     echo '<script type="text/javascript" id="icustomize-wc-master-js-' . CURRENT_THEME_NAME. '" src="/?get_js=shop"></script>';
                 }
 
                 //page js
                 if( is_singular() ){
-                    //echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME. '" src="/wp-content/plugins/icustomize/inc/assets/ic-script-page.php?id=' . $post->ID . '&key=icustomize-page-js-' . CURRENT_THEME_NAME . '"></script>';
                     echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME. '" src="/?get_js=page&id=' . $id . '"></script>';
                 }
             }

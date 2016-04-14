@@ -90,8 +90,6 @@
 				//future, maybe...
 			}
 
-			console.log(newPost);
-
 			//store our post id for use with update
 			window.pid = newPost.ID.toString();
 			window.meta = newPost.meta;
@@ -108,30 +106,9 @@
             if(page_css){
                 //update page editor from custom page css
                 page_css_editor.setValue(page_css.replace(/^\s+|\s+$/g, '')); //set editor value w/out opening and closing line breaks
-
-                //unhide and refresh contents
-                if(page_css_object.hasClass('hidden')){
-                    //page_css_title.text('Custom Page CSS');
-			        //page_css_description.text('Edit the page\'s custom css.').attr('style','');
-                    //page_css_object.removeClass('hidden');
-                    //page_css_editor.refresh();
-                }
             } else {
                 //clear page editor
                 page_css_editor.setValue(''); //set editor value w/out ...loading message
-
-                //create custom page css style object if not exist
-                if(! page_css_style.length){
-                    //$('#customize-preview iframe').contents().find('head').append('<style id="icustomize-page-css-' + window.theme + '">');
-                }
-
-                //unhide and refresh contents
-                if(page_css_object.hasClass('hidden')){
-                    //page_css_title.text('Custom Page CSS');
-			        //page_css_description.text('Edit the page\'s custom css.').attr('style','');
-                    //page_css_object.removeClass('hidden');
-                    //page_css_editor.refresh();
-                }
             }
 
             //update our page js editor on preview readiness
@@ -139,86 +116,16 @@
             if(page_js){
                 //update page editor from custom page js
                 page_js_editor.setValue(page_js.replace(/^\s+|\s+$/g, '')); //set editor value w/out opening and closing line breaks
-
-                //unhide and refresh contents
-                if(page_js_object.hasClass('hidden')){
-                    //page_js_title.text('Custom Page JS');
-                    //page_js_description.text('Edit the page\'s custom js.').attr('style','');
-                    //page_js_object.removeClass('hidden');
-                    //page_js_editor.refresh();
-                }
             } else {
                 //clear page editor
                 page_js_editor.setValue(''); //set editor value w/out ...loading message
-
-                //create custom page js script object if not exist
-                if(! page_js_script.length){
-                    //$('#customize-preview iframe').contents().find('body').append('<script id="icustomize-page-js-' + window.theme + '">');
-                }
-
-                //unhide and refresh contents
-                if(page_js_object.hasClass('hidden')){
-                    //page_js_title.text('Custom Page JS');
-                    //page_js_description.text('Edit the page\'s custom js.').attr('style','');
-                    //page_js_object.removeClass('hidden');
-                    //page_js_editor.refresh();
-                }
             }
-		} else {
-			//page_css_title.text('Custom Page CSS: ERROR');
-			//page_css_description.text('Sorry, this is not a singular post/page template and therefore cannot store custom css, use master css instead.').attr('style','color: red;');
-			//page_css_object.addClass('hidden');
-
-            //page_js_title.text('Custom Page JS: ERROR');
-            //page_js_description.text('Sorry, this is not a singular post/page template and therefore cannot store custom js, use master js instead.').attr('style','color: red;');
-            //page_js_object.addClass('hidden');
 		}
 	} );
 
 	/**
      * KIRKI CONTROL: CODE - override /inc/kirki/assets/js/controls/code.js
      */
-    /*wp.customize.controlConstructor['code'] = wp.customize.Control.extend( {
-    	ready: function() {
-    		var control = this;
-    		var element = control.container.find( '#kirki-codemirror-editor-' + control.id );
-            //var element  = control.container.find( '.kirki-codemirror-editor' );
-            
-    		var editor  = CodeMirror.fromTextArea( element[0] );
-    		var map = {"Alt-F": "findPersistent"};
-
-    		editor.setOption( 'value', control.setting._value );
-    		editor.setOption( 'mode', control.params.choices.language );
-    		editor.setOption( 'lineNumbers', true );
-    		editor.setOption( 'theme', control.params.choices.theme );
-    		editor.setOption( 'height', control.params.choices.height + 'px' );
-    		editor.addKeyMap(map);
-
-            //update page value and preview upon change
-    		editor.on('change', function() {
-    		    if( element.attr('id') == 'kirki-codemirror-editor-icustomize-page-css-' + window.theme || element.attr('id') == 'kirki-codemirror-editor-icustomize-page-js-' + window.theme){
-    		        
-    		        console.log(element.attr('id'));
-    		        var postData =
-                    {
-                        'postid' :  window.pid,
-                        'theme' :   window.theme,
-                        'data' :    editor.getValue(),
-                    }
-    		        control.setting.set( postData );
-    		    } else {
-    		        control.setting.set( editor.getValue() );
-    		    }
-    		});
-
-    		//fix on section click, refresh cm instance
-    		element.parents('.accordion-section').on('click', function(){
- 		        editor.refresh();
-	 		});
-
-    	}
-    });*/
-    
     wp.customize.controlConstructor.code = wp.customize.Control.extend({
 
     	// When we're finished loading continue processing
@@ -253,12 +160,9 @@
     
     		// On change make sure we infor the Customizer API
     		editor.on( 'change', function() {
-    		    //if( element.closest('li').attr('id') == 'kirki-codemirror-editor-icustomize-page-css-' + window.theme || element.closest('li').attr('id') == 'kirki-codemirror-editor-icustomize-page-js-' + window.theme){
     		    if( (element.closest('li').attr('id') == 'customize-control-icustomize-page-css-' + window.theme) ||
     		        (element.closest('li').attr('id') == 'customize-control-icustomize-page-js-' + window.theme)
     		        ){
-    		        
-    		        console.log(element.closest('li').attr('id'));
     		        
     		        var postData =
                     {
@@ -267,12 +171,13 @@
                         'data' :    editor.getValue(),
                     }
     		        control.setting.set( postData );
+    		        
     		    } else {
     			    control.setting.set( editor.getValue() );
     		    }
     		});
     
-    		// Hack to refresh the editor when we open a section
+    		//refresh the editor when we open a section
     		element.parents( '.accordion-section' ).on( 'click', function() {
     		    editor.refresh();
     		});
@@ -286,12 +191,31 @@
         var editor_pane = $('.wp-full-overlay-sidebar');
         var preview_wrap = $('#customize-preview');
         var preview_pane = $('#customize-preview iframe');
-        var master_css_editor = $('body [id^=customize-control-icustomize-icustomize-master-css] .CodeMirror')[0].CodeMirror;
-        var master_js_editor = $('body [id^=customize-control-icustomize-icustomize-master-js] .CodeMirror')[0].CodeMirror;
-        var shop_master_css_editor = $('body [id^=customize-control-icustomize-icustomize-wc-master-css] .CodeMirror')[0].CodeMirror;
-        var shop_master_js_editor = $('body [id^=customize-control-icustomize-icustomize-wc-master-js] .CodeMirror')[0].CodeMirror;
-        var page_css_editor = $('body [id^=customize-control-icustomize-page-css] .CodeMirror')[0].CodeMirror;
-        var page_js_editor = $('body [id^=customize-control-icustomize-page-js] .CodeMirror')[0].CodeMirror;
+        
+        if( $('body [id^=customize-control-icustomize-icustomize-master-css] .CodeMirror').length ){
+            var master_css_editor = $('body [id^=customize-control-icustomize-icustomize-master-css] .CodeMirror')[0].CodeMirror;
+        }
+        
+        if( $('body [id^=customize-control-icustomize-icustomize-master-js] .CodeMirror').length ){
+            var master_js_editor = $('body [id^=customize-control-icustomize-icustomize-master-js] .CodeMirror')[0].CodeMirror;
+        }
+        
+        if( $('body [id^=customize-control-icustomize-icustomize-wc-master-css] .CodeMirror').length ){
+            var shop_master_css_editor = $('body [id^=customize-control-icustomize-icustomize-wc-master-css] .CodeMirror')[0].CodeMirror;
+        }
+        
+        if( $('body [id^=customize-control-icustomize-icustomize-wc-master-js] .CodeMirror').length ){
+            var shop_master_js_editor = $('body [id^=customize-control-icustomize-icustomize-wc-master-js] .CodeMirror')[0].CodeMirror;
+        }
+        
+        if( $('body [id^=customize-control-icustomize-page-css] .CodeMirror').length ){
+            var page_css_editor = $('body [id^=customize-control-icustomize-page-css] .CodeMirror')[0].CodeMirror;
+        }
+        
+        if($('body [id^=customize-control-icustomize-page-js] .CodeMirror').length ){
+            var page_js_editor = $('body [id^=customize-control-icustomize-page-js] .CodeMirror')[0].CodeMirror;
+        }
+        
         var master_css_style = preview_pane.contents().find('#icustomize-master-css-' + window.theme );
         var master_js_script = preview_pane.contents().find('#icustomize-master-js' + window.theme );
         var shop_master_css_style = preview_pane.contents().find('#icustomize-wc-master-css-' + window.theme );
@@ -398,9 +322,6 @@
             //hide new customizer device
             $('#customize-footer-actions').css('height', 'auto').find('.devices').addClass('hidden');
 
-            page_css_style = preview_pane.contents().find('#icustomize-page-css-' + window.theme);
-            page_js_script = preview_pane.contents().find('#icustomize-page-js-' + window.theme);
-
             delay(function(){
                 $('body').addClass('icustomize-active');
 
@@ -427,45 +348,6 @@
                     $('.preview-width input').val(preview_pane.width())
                     update_preview_pane_resize_handle();
                 }
-
-                //update selectors
-                master_css_style = preview_pane.contents().find('#icustomize-master-css-' + window.theme);
-                master_js_script = preview_pane.contents().find('#icustomize-master-js-' + window.theme);
-                shop_master_css_style = preview_pane.contents().find('#icustomize-wc-master-css-' + window.theme);
-                shop_master_js_script = preview_pane.contents().find('#icustomize-wc-master-js-' + window.theme);
-
-                //create master css style element if not exist
-                if(! master_css_style.length){
-                    //preview_pane.contents().find('head').append('<style id="icustomize-master-css-' + window.theme + '">');
-                }
-
-                //create master js script element if not exist
-                if(! master_js_script.length){
-                    //preview_pane.contents().find('body').append('<script id="icustomize-master-js-' + window.theme + '">');
-                }
-                
-                //create shop master css style element if not exist
-                if(! shop_master_css_style.length){
-                    //preview_pane.contents().find('head').append('<style id="icustomize-wc-master-css-' + window.theme + '">');
-                }
-
-                //create shop master js script element if not exist
-                if(! shop_master_js_script.length){
-                    //preview_pane.contents().find('body').append('<script id="icustomize-wc-master-js-' + window.theme + '">');
-                }
-
-                //update page_css control value
-                /*var page_css = page_css_style.html();
-                if(page_css){
-                    page_css_editor.setValue(page_css.replace(/^\s+|\s+$/g, '')); //set editor value w/out opening and closing line breaks
-                } else {
-                    page_css_editor.setValue(''); //set editor value w/out ...loading
-
-                    //create custom page css style element if not exist
-                    if(! page_css_style.length){
-                        //preview_pane.contents().find('#icustomize-master-css-' + window.theme).after('<style id="icustomize-page-css-' + window.theme + '">');
-                    }
-                }*/
             }, 100);
         });
 
@@ -501,6 +383,7 @@
             }, 2000);
         });
         
+        if(shop_master_css_editor){
         shop_master_css_editor.on('change', function(cm, change){
             //update content after 2 seconds
             preview_pane = $('#customize-preview iframe');
@@ -510,7 +393,9 @@
                 shop_master_css_style.html(cm.getValue());
             }, 2000);
         });
+        }
 
+        if(shop_master_js_editor){
         shop_master_js_editor.on('change', function(cm, change){
             //update content after 2 seconds
             preview_pane = $('#customize-preview iframe');
@@ -520,7 +405,9 @@
                 preview_pane.contents().find('#icustomize-page-js-' + window.theme).before('<script type="text/javascript" id="icustomize-wc-master-js-' + window.theme + '">'+cm.getValue()+'</script>');
             }, 2000);
         });
+        }
 
+        if(page_css_editor){
         page_css_editor.on('change', function(cm, change){
             //update content after 2 seconds
             preview_pane = $('#customize-preview iframe');
@@ -530,7 +417,9 @@
                 page_css_style.html(cm.getValue());
             }, 2000);
         });
+        }
 
+        if(page_js_editor){
         page_js_editor.on('change', function(cm, change){
             //update content after 2 seconds
             preview_pane = $('#customize-preview iframe');
@@ -540,6 +429,7 @@
                 preview_pane.contents().find('#icustomize-master-js-' + window.theme).after('<script type="text/javascript" id="icustomize-page-js-' + window.theme + '">'+cm.getValue()+'</script>');
             }, 2000);
         });
+        }
 
         /*
          * editor pane dragbar events
@@ -595,7 +485,7 @@
 		        pp_width = parseFloat(preview_pane.css('max-width'));
 		        ph_left = (pw_width - pp_width) * .5;
 		    } else {
-		        ph_left = 0; //um duh, can't go larger than the screen!
+		        ph_left = 0;
 		    }
 
 		    $('#preview-resize-left').css( 'left', ph_left+'px' );
