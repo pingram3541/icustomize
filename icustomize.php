@@ -3,7 +3,7 @@
  * Plugin Name: iCustomize
  * Plugin URI: https://github.com/pingram3541/icustomize
  * Description: Live, Front-End Custom CSS and JS in the WordPress Customizer for any theme.
- * Version: 0.04
+ * Version: 0.05
  * Author:  wplovr
  * Author URI: http://wplovr.com/
  * License: GPLv3
@@ -20,6 +20,7 @@
  * 0.02 - Remove deprecated functions, update wp required ver msg...
  * 0.03 - Set int for postid
  * 0.04 - Add shop specific css/js for woocommerce, fix dynamic loading of fields - update kirki, disabled kirki /assets/js/controls/code.js
+ * 0.05 - code clean up, lean up
  */
 
 // Exit if accessed directly
@@ -29,21 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define debug - if set to true, loads unminified js/css files
 if ( ! defined( 'IC_DEBUG' ) ) {
-    define( 'IC_DEBUG', true ); //change to 'true' if needed
-}
-
-/* ---------------------------------------------------------------------------
- * Use Debug Log
- * --------------------------------------------------------------------------- */
-if ( ! function_exists('write_log')) {
-   function write_log ( $log )  {
-      if ( is_array( $log ) || is_object( $log ) ) {
-         error_log( print_r( $log, true ) );
-      } else {
-         error_log( $log );
-      }
-
-   }
+    define( 'IC_DEBUG', false ); //change to 'true' if needed
 }
 
 //Define our current theme
@@ -146,9 +133,9 @@ class iCustomize {
     static function compatible_version(){
         global $wp_version;
         if ( $wp_version < 4.4 ) {
-             return false; //plugin is not compatible
+             return false;
         } else {
-            return true; //yay, we're good to go
+            return true;
         }
 	}
 }

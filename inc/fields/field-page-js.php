@@ -38,17 +38,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     //update page meta from customize-controls.js
     function icustomize_page_js($value){
-        write_log('write of page post meta js fired!');
-        write_log($value);
-        
         if ( (array) $value === $value ) { 
             if($value['postid']){
-                write_log('we have proper array!');
                 update_post_meta($value['postid'], 'icustomize-page-js-' . CURRENT_THEME_NAME, $value['data']);
             } 
-        } else { 
-            write_log('not a single page');
-            //do nada
         }
-        
     }
