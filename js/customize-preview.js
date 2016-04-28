@@ -1,23 +1,3 @@
-/* custom callbacks */
-var $ = jQuery;
-
-/* fix non url anchor tag clicks from causing a refresh */
-if ( /\/customize\.php$/.test( window.location.pathname ) ) {
-    wp.customize.bind( 'preview-ready', function() {
-        var body = $( 'body' );
-        body.off( 'click.preview' );
-        body.on( 'click.preview', 'a[href]', function( event ) {
-            var link = $( this );
-            if ( /^(#|javascript:)/.test( link.attr( 'href' ) ) ) {
-                return;
-            }
-            event.preventDefault();
-            wp.customize.preview.send( 'scroll', 0 );
-            wp.customize.preview.send( 'url', link.prop( 'href' ) );
-        });
-    } );
-}
-
 /* global wp, _iCustomizePreviewedQueriedObject */
 ( function( $, api ) {
 
@@ -38,5 +18,22 @@ if ( /\/customize\.php$/.test( window.location.pathname ) ) {
 			api.preview.send( 'queried-post', self.queriedPost );
 		} );
 	} );
+	
+	/* fix non url anchor tag clicks from causing a refresh */
+    if ( /\/customize\.php$/.test( window.location.pathname ) ) {
+        wp.customize.bind( 'preview-ready', function() {
+            var body = $( 'body' );
+            body.off( 'click.preview' );
+            body.on( 'click.preview', 'a[href]', function( event ) {
+                var link = $( this );
+                if ( /^(#|javascript:)/.test( link.attr( 'href' ) ) ) {
+                    return;
+                }
+                event.preventDefault();
+                wp.customize.preview.send( 'scroll', 0 );
+                wp.customize.preview.send( 'url', link.prop( 'href' ) );
+            });
+        } );
+    }
 
 } )( jQuery, wp.customize );

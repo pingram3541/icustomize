@@ -3,7 +3,7 @@
  * Plugin Name: iCustomize
  * Plugin URI: https://github.com/pingram3541/icustomize
  * Description: Live, Front-End Custom CSS and JS in the WordPress Customizer for any theme.
- * Version: 0.05
+ * Version: 0.06
  * Author:  wplovr
  * Author URI: http://wplovr.com/
  * License: GPLv3
@@ -21,6 +21,7 @@
  * 0.03 - Set int for postid
  * 0.04 - Add shop specific css/js for woocommerce, fix dynamic loading of fields - update kirki, disabled kirki /assets/js/controls/code.js
  * 0.05 - code clean up, lean up
+ * 0.06 - fix js bug
  */
 
 // Exit if accessed directly
