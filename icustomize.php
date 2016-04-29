@@ -3,7 +3,7 @@
  * Plugin Name: iCustomize
  * Plugin URI: https://github.com/pingram3541/icustomize
  * Description: Live, Front-End Custom CSS and JS in the WordPress Customizer for any theme.
- * Version: 0.06
+ * Version: 0.07
  * Author:  wplovr
  * Author URI: http://wplovr.com/
  * License: GPLv3
