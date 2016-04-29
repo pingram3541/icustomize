@@ -22,6 +22,7 @@
  * 0.04 - Add shop specific css/js for woocommerce, fix dynamic loading of fields - update kirki, disabled kirki /assets/js/controls/code.js
  * 0.05 - code clean up, lean up
  * 0.06 - fix js bug
+ * 0.07 - fix icustomize-frontend.php - can't check ! empty on function call
  */
 
 // Exit if accessed directly
