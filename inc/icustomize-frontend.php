@@ -83,11 +83,10 @@ if ( ! defined( 'ABSPATH' ) ) {
             $page_css = '/* no page css styles set' . '*/'; //set default
 
             //get our post/page css
-            if( isset($_GET['id']) )
+            if( isset($_GET['id']) ){
                 $id = $_GET['id'];
-
-            if ( ! empty(get_post_meta( $id, 'icustomize-page-css-' . CURRENT_THEME_NAME, true)) )
                 $page_css = get_post_meta( $id, 'icustomize-page-css-' . CURRENT_THEME_NAME, true);
+            }
 
             //define as stylesheet type document
             header("Content-type: text/css; charset: UTF-8");
@@ -237,11 +236,10 @@ if ( ! defined( 'ABSPATH' ) ) {
             $page_js = '/* no page scripts set' . '*/'; //set default
 
             //get our post/page css
-            if( isset($_GET['id']) )
+            if( isset($_GET['id']) ){
                 $id = $_GET['id'];
-
-            if ( ! empty(get_post_meta( $id, 'icustomize-page-js-' . CURRENT_THEME_NAME, true)) )
                 $page_js = get_post_meta( $id, 'icustomize-page-js-' . CURRENT_THEME_NAME, true);
+            }
 
             //define as javascript type document
             header("Content-type: text/javascript; charset: UTF-8");
