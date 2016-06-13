@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     * Enqueue Customizer custom css and js files
     **************************************************/
     if(! function_exists('icustomize_control_enqueue')){
+        
         function icustomize_control_enqueue(){
             global $wp_customize;
 

@@ -37,10 +37,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     ) );
 
     //update page meta from customize-controls.js
-    function icustomize_page_js($value){
-        if ( (array) $value === $value ) { 
-            if($value['postid']){
-                update_post_meta($value['postid'], 'icustomize-page-js-' . CURRENT_THEME_NAME, $value['data']);
-            } 
+    if ( ! function_exists('icustomize_page_js')) {
+        
+        function icustomize_page_js($value){
+            if ( (array) $value === $value ) { 
+                if($value['postid']){
+                    update_post_meta($value['postid'], 'icustomize-page-js-' . CURRENT_THEME_NAME, $value['data']);
+                } 
+            }
         }
     }
