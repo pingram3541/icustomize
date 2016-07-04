@@ -3,7 +3,7 @@
  * Plugin Name: iCustomize
  * Plugin URI: https://github.com/pingram3541/icustomize
  * Description: Live, Front-End Custom CSS and JS in the WordPress Customizer for any theme.
- * Version: 0.08
+ * Version: 0.09
  * Author:  wplovr
  * Author URI: http://wplovr.com/
  * License: GPLv3
@@ -15,7 +15,6 @@
  *
  * @package iCustomize
  *
- *
  * 0.01 - Plugin births into existence!
  * 0.02 - Remove deprecated functions, update wp required ver msg...
  * 0.03 - Set int for postid
@@ -24,11 +23,12 @@
  * 0.06 - fix js bug
  * 0.07 - fix icustomize-frontend.php - can't check ! empty on function call
  * 0.08 - make class and functions pluggable, allow theme to define ICUSTOMIZE_OVERRIDE to bypass loading IC scripts/styles on front end
+ * 0.09 - fix issue with active theme name not being passed when customizing archives (blog, search, shop etc.)
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 // Define debug - if set to true, loads unminified js/css files
@@ -38,11 +38,11 @@ if ( ! defined( 'IC_DEBUG' ) ) {
 
 //Define our current theme
 if ( ! defined( 'CURRENT_THEME_NAME' ) ) {
-	$theme = wp_get_theme();
-	$theme = strtolower($theme); //lower case
-	$theme = preg_replace("/[^a-z0-9_\s-]/", "", $theme); //Make alphanumeric (removes all other characters)
-	$theme = preg_replace("/[\s-]+/", " ", $theme); //Clean up multiple dashes or whitespaces
-	$theme = preg_replace("/[\s_]/", "-", $theme); //Convert whitespaces and underscore to dash
+    $theme = wp_get_theme();
+    $theme = strtolower($theme); //lower case
+    $theme = preg_replace("/[^a-z0-9_\s-]/", "", $theme); //Make alphanumeric (removes all other characters)
+    $theme = preg_replace("/[\s-]+/", " ", $theme); //Clean up multiple dashes or whitespaces
+    $theme = preg_replace("/[\s_]/", "-", $theme); //Convert whitespaces and underscore to dash
 
     define( 'CURRENT_THEME_NAME', $theme );
 }
@@ -141,7 +141,7 @@ if ( ! class_exists('iCustomize') ) {
             } else {
                 return true;
             }
-    	}
+        }
     }
 
     global $icustomize;
