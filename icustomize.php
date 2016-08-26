@@ -3,7 +3,7 @@
  * Plugin Name: iCustomize
  * Plugin URI: https://github.com/pingram3541/icustomize
  * Description: Live, Front-End Custom CSS and JS in the WordPress Customizer for any theme.
- * Version: 0.10
+ * Version: 0.11
  * Author:  wplovr
  * Author URI: http://wplovr.com/
  * License: GPLv3
@@ -25,6 +25,7 @@
  * 0.08 - make class and functions pluggable, allow theme to define ICUSTOMIZE_OVERRIDE to bypass loading IC scripts/styles on front end
  * 0.09 - fix issue with active theme name not being passed when customizing archives (blog, search, shop etc.)
  * 0.10 - fix js issue in kirki slider element
+ * 0.11 - fix wp 4.6 validation issues - todo: use new validation methods, update kirki or ditch it
  */
 
 // Exit if accessed directly
