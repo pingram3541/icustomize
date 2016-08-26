@@ -43,6 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             if ( (array) $value === $value ) { 
                 if($value['postid']){
                     update_post_meta($value['postid'], 'icustomize-page-js-' . CURRENT_THEME_NAME, $value['data']);
+                    return $value;
                 } 
             }
         }

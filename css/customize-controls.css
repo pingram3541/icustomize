@@ -55,6 +55,18 @@ body.icustomize-active [data-hint]:after {
 [id^=customize-control-icustomize-page-js] .CodeMirror {
     height: 100% !important;
 }
+/* WP 4.6 fix - label hover hides content - update Kirki likely will fix this */
+[id^=customize-control-icustomize-icustomize-master-css] label,
+[id^=customize-control-icustomize-icustomize-master-js] label,
+[id^=customize-control-icustomize-icustomize-wc-master-css] label,
+[id^=customize-control-icustomize-icustomize-wc-master-js] label,
+[id^=customize-control-icustomize-page-css] label,
+[id^=customize-control-icustomize-page-js] label {
+    display: inherit !important;
+    top: inherit !important;
+    left: inherit !important;
+    position: inherit !important;
+}
 .CodeMirror.hidden,
 #customize-footer-actions .devices.hidden {
     display: none;
