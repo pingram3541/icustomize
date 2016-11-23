@@ -74,7 +74,6 @@ if ( ! class_exists( 'Kirki_Controls_Slider_Control' ) ) {
 				<# if ( data.description ) { #>
 					<span class="description customize-control-description">{{{ data.description }}}</span>
 				<# } #>
-				<# if ( data.choices ) { #>
 				<div class="wrapper">
 					<input type="range" min="{{ data.choices['min'] }}" max="{{ data.choices['max'] }}" step="{{ data.choices['step'] }}" value="{{ data.value }}" {{{ data.link }}} data-reset_value="{{ data.default }}" />
 					<div class="kirki_range_value">
@@ -87,7 +86,6 @@ if ( ! class_exists( 'Kirki_Controls_Slider_Control' ) ) {
 						<span class="dashicons dashicons-image-rotate"></span>
 					</div>
 				</div>
-				<# } #>
 			</label>
 			<?php
 		}

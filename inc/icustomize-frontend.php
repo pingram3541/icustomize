@@ -8,8 +8,6 @@
  * @copyright   Copyright (c) 2016, Philip Ingram, wplovr, wplovr.com
  * @license     http://www.gnu.org/licenses/gpl-3.0.en.html
  * @since       0.01
- * 
- * notes: modfied "if" to load inline until 4.6 fix
  *
  */
 
@@ -123,7 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $id = $post->ID;
             }
 
-            //if ( isset( $_REQUEST['wp_customize'] ) ) {
+            if ( isset( $_REQUEST['wp_customize'] ) ) {
 
                 //get our master options
                 $ic_options = get_option('icustomize');
@@ -157,7 +155,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     		        echo '</style>'."\n";
     		    }
 
-            /*} else if ( ! defined( 'ICUSTOMIZE_OVERRIDE' ) )  {
+            } else if ( ! defined( 'ICUSTOMIZE_OVERRIDE' ) )  {
 
                 //master css
                 echo '<link rel="stylesheet" type="text/css" id="icustomize-master-css-' . CURRENT_THEME_NAME. '" href="/?get_css=master">';
@@ -171,7 +169,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 if( is_singular() ){
                     echo '<link rel="stylesheet" type="text/css" id="icustomize-page-css-' . CURRENT_THEME_NAME. '" href="/?get_css=page&id=' . $id . '">';
                 }
-            }*/
+            }
         }
     }
 
@@ -281,7 +279,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 $id = $post->ID;
             }
 
-            //if ( isset( $_REQUEST['wp_customize'] ) ) {
+            if ( isset( $_REQUEST['wp_customize'] ) ) {
 
                 //get our master options
                 $ic_options = get_option('icustomize');
@@ -316,7 +314,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         		    echo '</script>'."\n";
     		    }
 
-            /*} else if ( ! defined( 'ICUSTOMIZE_OVERRIDE' ) ) {
+            } else if ( ! defined( 'ICUSTOMIZE_OVERRIDE' ) ) {
 
                 //master js
                 echo '<script type="text/javascript" id="icustomize-master-js-' . CURRENT_THEME_NAME. '" src="/?get_js=master"></script>';
@@ -330,7 +328,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 if( is_singular() ){
                     echo '<script type="text/javascript" id="icustomize-page-js-' . CURRENT_THEME_NAME. '" src="/?get_js=page&id=' . $id . '"></script>';
                 }
-            }*/
+            }
         }
         add_action('wp_footer', 'icustomize_custom_js_back', 999999);
     }
